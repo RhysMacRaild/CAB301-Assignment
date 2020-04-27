@@ -2,18 +2,45 @@ package com.company;
 
 public class MovieCollection
 {
-    Movie Root;
+    Movie rootMovie;
 
-    public MovieCollection(Movie rootMovie)
+    public void add(Movie newMovie)
     {
-        this.Root = rootMovie;
-        this.Root.Key = rootMovie.Title;
+        //Set new root movie if it doesn't exist already
+        if (this.rootMovie == null)
+        {
+            this.rootMovie = newMovie;
+        }
+
+        //Add to existing tree
+        else
+        {
+            PlaceMovie(newMovie, this.rootMovie);
+        }
     }
 
-    void add(Movie movie)
+    //    Find an appropriate place in the tree to add a new movie and add it
+    public void PlaceMovie(Movie newMovie, Movie node)
     {
-        movie.Key = movie.Title;
-//        IF movie.Key < this.Root.movie.Key{
-//        search down tree
+        if (newMovie.Title.compareTo(node.Title) <= 0)
+        {
+            if (node.Left != null)
+            {
+                PlaceMovie(newMovie, node.Left);
+            } else
+            {
+                node.Left = newMovie;
+            }
+
+        } else
+        {
+            if (node.Right != null)
+            {
+                PlaceMovie(newMovie, node.Right);
+            } else
+            {
+                node.Right = newMovie;
+            }
+        }
     }
 }

@@ -2,9 +2,13 @@ package com.company;
 
 public class BinarySearchTree
 {
-    void Insert()
+    public BinarySearchTree(Movie rootMovie)
     {
 
     }
 
+    void add(Movie movie)
+    {
+
+    }
 }

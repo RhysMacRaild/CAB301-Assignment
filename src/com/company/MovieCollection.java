@@ -30,6 +30,7 @@ public class MovieCollection
             } else
             {
                 node.Left = newMovie;
+                newMovie.Parent = node;
             }
 
         } else
@@ -40,6 +41,7 @@ public class MovieCollection
             } else
             {
                 node.Right = newMovie;
+                newMovie.Parent = node;
             }
         }
     }

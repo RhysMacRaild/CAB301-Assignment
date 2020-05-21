@@ -15,18 +15,18 @@ public class MovieCollection
         //Add to existing tree
         else
         {
-            PlaceMovie(newMovie, this.rootMovie);
+            placeMovie(newMovie, this.rootMovie);
         }
     }
 
     //    Find an appropriate place in the tree to add a new movie and add it
-    public void PlaceMovie(Movie newMovie, Movie node)
+    public void placeMovie(Movie newMovie, Movie node)
     {
-        if (newMovie.Title.compareTo(node.Title) <= 0)
+        if (newMovie.title.compareTo(node.title) <= 0)
         {
             if (node.Left != null)
             {
-                PlaceMovie(newMovie, node.Left);
+                placeMovie(newMovie, node.Left);
             } else
             {
                 node.Left = newMovie;
@@ -37,7 +37,7 @@ public class MovieCollection
         {
             if (node.Right != null)
             {
-                PlaceMovie(newMovie, node.Right);
+                placeMovie(newMovie, node.Right);
             } else
             {
                 node.Right = newMovie;

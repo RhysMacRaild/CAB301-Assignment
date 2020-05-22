@@ -33,7 +33,8 @@ public class CommunityLibrary {
         if (selection < 0) {
             staffMenu();
         } else if (selection == 1) {
-
+            addNewMovie();
+            staffMenu();
         } else if (selection == 2) {
 
         } else if (selection == 3) {
@@ -54,15 +55,15 @@ public class CommunityLibrary {
 
 //      Have the user enter there username and password
         System.out.println("Please enter username:");
-        String inputedUsername = sc.nextLine();
+        String inputtedUsername = sc.nextLine();
         System.out.println("Please enter password:");
-        String inputedPasswordString = sc.nextLine();
-        int inputedPasswordInt = Integer.parseInt(inputedPasswordString);
+        String inputtedPasswordString = sc.nextLine();
+        int inputtedPasswordInt = Integer.parseInt(inputtedPasswordString);
 
 //        Find the member if they exist, and test if the password is valid
-        Member memberToValidate = this.members.returnMemberFromUsername(inputedUsername);
+        Member memberToValidate = this.members.returnMemberFromUsername(inputtedUsername);
         if (memberToValidate != null){
-            if (memberToValidate.password == inputedPasswordInt){
+            if (memberToValidate.password == inputtedPasswordInt){
                 memberMenu();
             }
         }
@@ -77,12 +78,12 @@ public class CommunityLibrary {
 
 //      Have the user enter there username and password
         System.out.print("Please enter username: ");
-        String inputedUsername = sc.nextLine();
+        String inputtedUsername = sc.nextLine();
         System.out.print("Please enter password: ");
-        String inputedPassword = sc.nextLine();
+        String inputtedPassword = sc.nextLine();
 
 //        Verify username/password
-        if (inputedUsername.equals(validUsername) && inputedPassword.equals(validPassword)) {
+        if (inputtedUsername.equals(validUsername) && inputtedPassword.equals(validPassword)) {
             System.out.println("Username and password accepted...\n\n");
             staffMenu();
         } else {
@@ -90,8 +91,6 @@ public class CommunityLibrary {
             mainMenu();
         }
     }
-
-
 
 
     public void showMainMenu() {
@@ -159,4 +158,51 @@ public class CommunityLibrary {
         return -1;
     }
 
+    public void addNewMovie(){
+//        Create a mew movie
+        Scanner sc = new Scanner(System.in);
+        System.out.println("============Add Movie============");
+        System.out.print("Title: ");
+        Movie newMovie  = new Movie(sc.nextLine());
+
+        System.out.print("Starring: ");
+        newMovie.starring = sc.nextLine();
+        System.out.print("Director: ");
+        newMovie.director = sc.nextLine();
+
+//        Input and validate genre
+        while (true){
+            System.out.print("Genre (Drama,Adventure,Action,Sci-Fi,Comedy,Animated,Thriller,Other): ");
+             String genre = sc.nextLine();
+            if (newMovie.isValidGenre(genre) || genre.isEmpty()){
+                newMovie.starring = genre;
+                break;
+            } else {
+                System.out.println("Please enter a valid genre or leave blank...");
+            }
+        }
+
+//        Input and validate classification
+        while (true){
+            System.out.print("Classification (G,PG,M15+,MA15+): ");
+            String classification = sc.nextLine();
+            if (newMovie.isValidClassification(classification) || classification.isEmpty()){
+                newMovie.classification = classification;
+                break;
+            } else {
+                System.out.println("Please enter a valid classification or leave blank...");
+            }
+        }
+        System.out.print("Release Date: ");
+        newMovie.releaseDate = sc.nextLine();
+
+//        Add the new movie to the library
+        allMovies.add(newMovie);
+        availableToRentMovies.add(newMovie);
+    }
+
+    public void removeMovie(String movieToRemove){
+        allMovies.removeMovieByString(movieToRemove);
+        members.removeMovieFromAllMembersCollections(movieToRemove);
+    }
 }

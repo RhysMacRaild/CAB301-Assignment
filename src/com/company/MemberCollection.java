@@ -1,18 +1,18 @@
 package com.company;
 
 public class MemberCollection {
-    public Member[] Members = new Member[10];
+    public Member[] members = new Member[10];
 //    public String[] MembersIndex = new String[10];
-    public int NumOfMembersInArray = 0;
+    public int numOfMembersInArray = 0;
 
 
     public void addMember(Member newMember) {
         for (int index = 0; index < 10; index++){
-            if (this.Members[index] != null){
-                this.Members[index] = newMember;
+            if (this.members[index] != null){
+                this.members[index] = newMember;
             }
         }
-        NumOfMembersInArray++;
+        numOfMembersInArray++;
     }
 
     public void remove(Member memberToRemove) {
@@ -23,14 +23,14 @@ public class MemberCollection {
             System.out.println("Member not in this collection");
             return;
         }
-        this.Members[memberIndex] = null;
-        NumOfMembersInArray--;
+        this.members[memberIndex] = null;
+        numOfMembersInArray--;
     }
 
     public Member returnMemberFromUsername(String memberToReturn){
         for (int index = 0; index<10; index++) {
-            if (this.Members[index].userName == memberToReturn) {
-                return this.Members[index];
+            if (this.members[index].userName == memberToReturn) {
+                return this.members[index];
             }
         }
         return null;
@@ -38,10 +38,19 @@ public class MemberCollection {
 
     public int getMemberIndex(Member member) {
         for (int index = 0; index<10; index++) {
-            if (this.Members[index] == member) {
+            if (this.members[index] == member) {
                 return index;
             }
         }
         return -1;
+    }
+
+//    Remove all copies of a movie from all members (If staff removes movie from software)
+    public void removeMovieFromAllMembersCollections(String movieToRemove){
+        for (int memberIndex = 0; memberIndex < 10; memberIndex++){
+            if (members[memberIndex] != null){
+                this.members[memberIndex].borrowedMovies.removeMovieByString(movieToRemove);
+            }
+        }
     }
 }

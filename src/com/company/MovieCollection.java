@@ -75,10 +75,14 @@ public class MovieCollection
     }
 
     public void removeMovie(Movie movieToRemove) {
+
 //      Case 1: movieToRemove has no subtrees
         if (movieToRemove.Left == null && movieToRemove.Right == null) {
-//            Check if the movieToRemove is on its parents left or right subtree, remove accordingly
-            if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
+//            Link parent to replacementNode (Remove in this case)
+            if (movieToRemove == rootMovie){
+                rootMovie = null;
+            }
+            else if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
                 movieToRemove.Parent.Left = null;
             } else {
                 movieToRemove.Parent.Right = null;
@@ -88,8 +92,11 @@ public class MovieCollection
         else if (movieToRemove.Left != null && movieToRemove.Right == null) {
             Movie replacementNode = movieToRemove.Left;
             replacementNode.Parent = movieToRemove.Parent;
-//            Check if the replacementNode is on its new parents left or right subtree, replace accordingly
-            if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
+//            Link parent to replacementNode
+            if (movieToRemove == rootMovie){
+                rootMovie = replacementNode;
+            }
+            else if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
                 replacementNode.Parent.Left = replacementNode;
             } else {
                 replacementNode.Parent.Right = replacementNode;
@@ -98,15 +105,21 @@ public class MovieCollection
         } else if (movieToRemove.Left == null && movieToRemove.Right != null) {
             Movie replacementNode = movieToRemove.Right;
             replacementNode.Parent = movieToRemove.Parent;
-//            Check if the replacementNode is on its new parents left or right subtree, replace accordingly
-            if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
+//            Link parent to replacementNode
+            if (movieToRemove == rootMovie){
+                rootMovie = replacementNode;
+            }
+            else if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
                 replacementNode.Parent.Left = replacementNode;
             } else {
                 replacementNode.Parent.Right = replacementNode;
             }
-//            Update parents
-            replacementNode.Left.Parent = replacementNode;
-            replacementNode.Right.Parent = replacementNode;
+            if (replacementNode != rootMovie){
+    //            Update parents
+                replacementNode.Left.Parent = replacementNode;
+                replacementNode.Right.Parent = replacementNode;
+            }
+
         }
 
 //        Case 3: movieToRemove has two subtrees (Replace movie with the minimum node on right subtree)

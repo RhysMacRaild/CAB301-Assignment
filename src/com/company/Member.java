@@ -6,11 +6,11 @@ public class Member
     public String firstName;
     public String lastName;
     public String residentialAddress;
-    public int phoneNumber;
+    public String phoneNumber;
     public int password;
     MovieCollection borrowedMovies;
 
-    public Member(String firstName, String lastName, String residentialAddress, int phoneNumber, int password){
+    public Member(String firstName, String lastName, String residentialAddress, String phoneNumber, int password){
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = firstName+lastName;

@@ -36,9 +36,11 @@ public class CommunityLibrary {
             addNewMovie();
             staffMenu();
         } else if (selection == 2) {
-
+            removeMovie();
+            staffMenu();
         } else if (selection == 3) {
-
+            registerNewMember();
+            staffMenu();
         } else if (selection == 4) {
 
         } else if (selection == 0) {
@@ -201,8 +203,42 @@ public class CommunityLibrary {
         availableToRentMovies.add(newMovie);
     }
 
-    public void removeMovie(String movieToRemove){
+    public void removeMovie(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("============Add Movie============");
+        System.out.print("Enter title of movie to remove: ");
+        String movieToRemove = sc.nextLine();
         allMovies.removeMovieByString(movieToRemove);
         members.removeMovieFromAllMembersCollections(movieToRemove);
+    }
+
+    public void registerNewMember(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("============Register Member============");
+        System.out.print("First Name: ");
+        String firstName = sc.nextLine();
+        System.out.print("Last Name: ");
+        String lastName = sc.nextLine();
+        System.out.print("Residential Address: ");
+        String residentialAddress = sc.nextLine();
+        System.out.print("Phone Number: ");
+        String phoneNumber = sc.nextLine();
+
+//        Check if password is valid
+        while (true) {
+            System.out.print("Password (4 Digits): ");
+            String password = sc.nextLine();
+            if (password.length() == 4){
+                try{
+                    int passwordInt = Integer.parseInt(password);
+                    members.addMember(new Member(firstName,lastName,residentialAddress,phoneNumber,passwordInt));
+                } catch (Exception e){
+                    System.out.println("Please enter a valid password...");
+                }
+            } else {
+                System.out.println("Please enter a valid password...");
+            }
+
+        }
     }
 }

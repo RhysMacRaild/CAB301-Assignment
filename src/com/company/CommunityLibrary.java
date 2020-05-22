@@ -6,6 +6,7 @@ public class CommunityLibrary {
     MemberCollection members;
     MovieCollection allMovies;
     MovieCollection availableToRentMovies;
+    MovieCollection rentedMovies;
 
     public CommunityLibrary() {
         members = new MemberCollection();
@@ -42,7 +43,8 @@ public class CommunityLibrary {
             registerNewMember();
             staffMenu();
         } else if (selection == 4) {
-
+            findMemberPhoneNumber();
+            staffMenu();
         } else if (selection == 0) {
             mainMenu();
         }
@@ -211,7 +213,7 @@ public class CommunityLibrary {
         allMovies.removeMovieByString(movieToRemove);
         members.removeMovieFromAllMembersCollections(movieToRemove);
     }
-
+//MAYBE ADD FUNCTION TO CONFIRM THE MEMBER ENTERS A NAME ?
     public void registerNewMember(){
         Scanner sc = new Scanner(System.in);
         System.out.println("============Register Member============");
@@ -232,6 +234,7 @@ public class CommunityLibrary {
                 try{
                     int passwordInt = Integer.parseInt(password);
                     members.addMember(new Member(firstName,lastName,residentialAddress,phoneNumber,passwordInt));
+                    return;
                 } catch (Exception e){
                     System.out.println("Please enter a valid password...");
                 }
@@ -239,6 +242,21 @@ public class CommunityLibrary {
                 System.out.println("Please enter a valid password...");
             }
 
+        }
+    }
+
+    public void findMemberPhoneNumber(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("============Recover Phone No.============");
+        System.out.print("Member first name: ");
+        String firstName = sc.nextLine();
+        System.out.print("Member last name: ");
+        String lastName = sc.nextLine();
+        try{
+            Member member = members.returnMemberFromUsername(firstName+lastName);
+            System.out.println(firstName + " " + lastName + "s phone number: " + member.phoneNumber);
+        } catch (NullPointerException e){
+            System.out.println("Member not found...");
         }
     }
 }

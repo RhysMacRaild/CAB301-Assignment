@@ -8,11 +8,13 @@ public class MemberCollection {
 
     public void addMember(Member newMember) {
         for (int index = 0; index < 10; index++){
-            if (this.members[index] != null){
+            if (this.members[index] == null){
                 this.members[index] = newMember;
+                numOfMembersInArray++;
+                return;
             }
         }
-        numOfMembersInArray++;
+
     }
 
     public void remove(Member memberToRemove) {
@@ -29,8 +31,10 @@ public class MemberCollection {
 
     public Member returnMemberFromUsername(String memberToReturn){
         for (int index = 0; index<10; index++) {
-            if (this.members[index].userName == memberToReturn) {
-                return this.members[index];
+            if (this.members[index] != null){
+                if (this.members[index].userName.equals(memberToReturn)) {
+                    return this.members[index];
+                }
             }
         }
         return null;

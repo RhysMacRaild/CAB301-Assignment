@@ -3,14 +3,12 @@ package com.company;
 public class Main {
 
     public static void main(String[] args) {
-        CommunityLibrary run = new CommunityLibrary();
-        run.mainMenu();
-//        MovieCollection test = new MovieCollection();
-//        test.add(new Movie("1"));
-//        test.add(new Movie("2"));
-//        test.removeMovieByString("1");
-//        System.out.println("");
-
+//        CommunityLibrary run = new CommunityLibrary();
+//        run.mainMenu();
+        MemberCollection members = new MemberCollection();
+        members.addMember(new Member("John","Stick","","1234",1234));
+        Member test = members.returnMemberFromUsername("JohnStick");
+        System.out.println(test.phoneNumber);
 
 //        MovieCollection collection = new MovieCollection();
 //        collection.add(new Movie("5"));

@@ -51,6 +51,11 @@ public class MovieCollection
     }
 
     public Movie returnMovieFromString(String movieTitleToFind, Movie node){
+//        Return null if the BST is empty
+        if (rootMovie == null){
+            return null;
+        }
+
 //        Stop searching, the current node is the movie to return
         if (movieTitleToFind.equals(node.title)){
             return node;

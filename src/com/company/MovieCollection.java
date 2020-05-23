@@ -1,82 +1,81 @@
 package com.company;
 
-public class MovieCollection
-{
+public class MovieCollection {
     Movie rootMovie;
+    int collectionSize = 0;
 
-//    Add a movie to the binary search tree (Which branch determined lexographically)
+    Movie[] orderedCollection;
+    int orderedCollectionSize = 0;
+
+
+    //    Add a movie to the binary search tree (Which branch determined lexographically)
     public void add(Movie newMovie) {
         //Set new root movie if it doesn't exist already
-        if (this.rootMovie == null)
-        {
+        if (this.rootMovie == null) {
             this.rootMovie = newMovie;
+            collectionSize++;
         }
 
         //Add to existing tree
-        else
-        {
+        else {
             placeMovie(newMovie, this.rootMovie);
         }
     }
 
     //    Find an appropriate place in the tree to add a new movie and add it
     public void placeMovie(Movie newMovie, Movie node) {
-        if (newMovie.title.compareToIgnoreCase(node.title) <= 0)
-        {
-            if (node.Left != null)
-            {
+        if (newMovie.title.compareToIgnoreCase(node.title) <= 0) {
+            if (node.Left != null) {
                 placeMovie(newMovie, node.Left);
-            } else
-            {
+            } else {
                 node.Left = newMovie;
                 newMovie.Parent = node;
+                collectionSize++;
             }
 
-        } else
-        {
-            if (node.Right != null)
-            {
+        } else {
+            if (node.Right != null) {
                 placeMovie(newMovie, node.Right);
-            } else
-            {
+            } else {
                 node.Right = newMovie;
                 newMovie.Parent = node;
+                collectionSize++;
             }
         }
     }
 
-//    Base case using root node
-    public Movie returnMovieFromString(String movieTitleToFind){
+    //    Base case using root node
+    public Movie returnMovieFromString(String movieTitleToFind) {
         return returnMovieFromString(movieTitleToFind, rootMovie);
     }
 
-    public Movie returnMovieFromString(String movieTitleToFind, Movie node){
+    public Movie returnMovieFromString(String movieTitleToFind, Movie node) {
 //        Return null if the BST is empty
-        if (rootMovie == null){
+        if (rootMovie == null) {
             return null;
         }
 
 //        Stop searching, the current node is the movie to return
-        if (movieTitleToFind.equals(node.title)){
+        if (movieTitleToFind.equals(node.title)) {
             return node;
         }
 
 //         Check path to take by checking if left and right nodes exist
-        else if (node.Left == null && node.Right == null){
+        else if (node.Left == null && node.Right == null) {
             return null;
-        } else if (node.Left == null && node.Right!= null){
+        } else if (node.Left == null && node.Right != null) {
             return returnMovieFromString(movieTitleToFind, node.Right);
-        } else if (node.Left !=null && node.Right == null){
+        } else if (node.Left != null && node.Right == null) {
             return returnMovieFromString(movieTitleToFind, node.Left);
         }
 
 //        Check which path in the tree to take if both options exist
-         else if (movieTitleToFind.compareToIgnoreCase(node.Left.title) <= 0){
+        else if (movieTitleToFind.compareToIgnoreCase(node.Left.title) <= 0) {
             return returnMovieFromString(movieTitleToFind, node.Left);
-        } else if (movieTitleToFind.compareToIgnoreCase(node.Left.title) > 0){
+        } else if (movieTitleToFind.compareToIgnoreCase(node.Left.title) > 0) {
             return returnMovieFromString(movieTitleToFind, node.Right);
         }
-         return null;
+        return null;
     }
 
     public void removeMovie(Movie movieToRemove) {
@@ -84,13 +83,15 @@ public class MovieCollection
 //      Case 1: movieToRemove has no subtrees
         if (movieToRemove.Left == null && movieToRemove.Right == null) {
 //            Link parent to replacementNode (Remove in this case)
-            if (movieToRemove == rootMovie){
+            if (movieToRemove == rootMovie) {
                 rootMovie = null;
-            }
-            else if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
+                collectionSize--;
+            } else if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
                 movieToRemove.Parent.Left = null;
+                collectionSize--;
             } else {
                 movieToRemove.Parent.Right = null;
+                collectionSize--;
             }
         }
 //        Case 2: movieToRemove has only one subtree
@@ -98,29 +99,33 @@ public class MovieCollection
             Movie replacementNode = movieToRemove.Left;
             replacementNode.Parent = movieToRemove.Parent;
 //            Link parent to replacementNode
-            if (movieToRemove == rootMovie){
+            if (movieToRemove == rootMovie) {
                 rootMovie = replacementNode;
-            }
-            else if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
+                collectionSize--;
+            } else if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
                 replacementNode.Parent.Left = replacementNode;
+                collectionSize--;
             } else {
                 replacementNode.Parent.Right = replacementNode;
+                collectionSize--;
             }
 
         } else if (movieToRemove.Left == null && movieToRemove.Right != null) {
             Movie replacementNode = movieToRemove.Right;
             replacementNode.Parent = movieToRemove.Parent;
 //            Link parent to replacementNode
-            if (movieToRemove == rootMovie){
+            if (movieToRemove == rootMovie) {
                 rootMovie = replacementNode;
-            }
-            else if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
+                collectionSize--;
+            } else if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
                 replacementNode.Parent.Left = replacementNode;
+                collectionSize--;
             } else {
                 replacementNode.Parent.Right = replacementNode;
+                collectionSize--;
             }
-            if (replacementNode != rootMovie){
-    //            Update parents
+            if (replacementNode != rootMovie) {
+                //            Update parents
                 replacementNode.Left.Parent = replacementNode;
                 replacementNode.Right.Parent = replacementNode;
             }
@@ -141,37 +146,65 @@ public class MovieCollection
 //            Link replacementNode to its new parent
             if (movieToRemove == rootMovie) {
                 rootMovie = replacementNode;
+                collectionSize--;
             } else if (replacementNode.title.compareToIgnoreCase(replacementNode.Parent.title) <= 0) {
                 replacementNode.Parent.Left = replacementNode;
+                collectionSize--;
             } else if (replacementNode.title.compareToIgnoreCase(replacementNode.Parent.title) > 0) {
                 replacementNode.Parent.Right = replacementNode;
+                collectionSize--;
             }
 
 //            Confirm that the replacementNode doesn't point to itself
-            if (replacementNode.Left == replacementNode){
+            if (replacementNode.Left == replacementNode) {
                 replacementNode.Left = null;
-            } else if (replacementNode.Right == replacementNode){
+            } else if (replacementNode.Right == replacementNode) {
                 replacementNode.Right = null;
             }
         }
     }
 
-    public void removeMovieByString(String movieToRemoveString){
+    public void removeMovieByString(String movieToRemoveString) {
         Movie movieToRemove = returnMovieFromString(movieToRemoveString);
-        if (movieToRemove != null){
+        if (movieToRemove != null) {
             removeMovie(movieToRemove);
         }
     }
 
-    public Movie findMinimumNode(Movie startingNode){
-        if (startingNode == null){
+    public Movie findMinimumNode(Movie startingNode) {
+        if (startingNode == null) {
             return null;
         }
         Movie currentNode = startingNode;
-        while (currentNode.Left != null){
+        while (currentNode.Left != null) {
             currentNode = currentNode.Left;
         }
         return currentNode;
+    }
+
+    public void listMovieLexicographically() {
+        orderedCollection = new Movie[collectionSize];
+        inOrder(rootMovie);
+    }
+
+    public void inOrder(Movie currentNode) {
+
+        if (currentNode.Left != null){
+            inOrder(currentNode.Left);
+        }
+
+        accessCurrentNode(currentNode);
+        System.out.println(currentNode.title);
+
+        if (currentNode.Right != null){
+            inOrder((currentNode.Right));
+        }
+
+    }
+
+    public void accessCurrentNode(Movie currentNode) {
+        orderedCollection[orderedCollectionSize] = currentNode;
+        orderedCollectionSize++;
     }
 }
 

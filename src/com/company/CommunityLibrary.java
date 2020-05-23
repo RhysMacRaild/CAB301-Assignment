@@ -51,6 +51,26 @@ public class CommunityLibrary {
     }
 
     public void memberMenu() {
+        showMemberMenu();
+        int selection = getSelection(5);
+        if (selection < 0) {
+            memberMenu();
+        } else if (selection == 1) {
+
+        } else if (selection == 2) {
+
+        } else if (selection == 3) {
+
+        } else if (selection == 4) {
+
+        } else if (selection == 5) {
+
+        } else if (selection == 0) {
+            mainMenu();
+        }
+    }
+
+    private void displayAllMovies(){
 
     }
 
@@ -179,7 +199,7 @@ public class CommunityLibrary {
             System.out.print("Genre (Drama,Adventure,Action,Sci-Fi,Comedy,Animated,Thriller,Other): ");
              String genre = sc.nextLine();
             if (newMovie.isValidGenre(genre) || genre.isEmpty()){
-                newMovie.starring = genre;
+                newMovie.genre = genre;
                 break;
             } else {
                 System.out.println("Please enter a valid genre or leave blank...");

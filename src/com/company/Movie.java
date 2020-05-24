@@ -1,31 +1,41 @@
 package com.company;
 
 public class Movie extends Node {
-    String[] validGenres = {"Drama", "Adventure", "Family", "Action", "Sci-Fi", "Comedy", "Animated", "Thriller",
+    String[] VALID_GENRES = {"Drama", "Adventure", "Family", "Action", "Sci-Fi", "Comedy", "Animated", "Thriller",
             "Other"};
-    String[] validClassifications = {"G","PG","M15+","MA15+"};
+    String[] VALID_CLASSIFICATIONS = {"G","PG","M15+","MA15+"};
     String title;
     String starring;
     String director;
     String genre;
     String classification;
     String releaseDate;
+    int borrowCount;
 
-
-    int BorrowCount;
 
     public Movie(String title) {
         this.title = title;
     }
 
+//    Create a deep copy of a movie
+    public Movie(Movie movieToCopy){
+        this.title = movieToCopy.title;
+        this.starring = movieToCopy.starring;
+        this.director = movieToCopy.director;
+        this.genre = movieToCopy.genre;
+        this.classification = movieToCopy.classification;
+        this.releaseDate = movieToCopy.releaseDate;
+        this.borrowCount = movieToCopy.borrowCount;
+    }
+
 //    Iterate through valid genre list to check if the inputted genre is a valid one
     public boolean isValidGenre(String genre) {
-        return this.isValid(genre,this.validGenres);
+        return this.isValid(genre,this.VALID_GENRES);
     }
 
     //    Iterate through valid classification list to check if the inputted genre is a valid one
     public boolean isValidClassification(String classification){
-        return this.isValid(classification, this.validClassifications);
+        return this.isValid(classification, this.VALID_CLASSIFICATIONS);
     }
 
     //    Iterate through valid list to check if the inputted string is a valid one

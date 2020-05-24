@@ -6,7 +6,6 @@ public class CommunityLibrary {
     MemberCollection members;
     MovieCollection allMovies;
     MovieCollection availableToRentMovies;
-    MovieCollection rentedMovies;
 
     public CommunityLibrary() {
         members = new MemberCollection();
@@ -50,48 +49,102 @@ public class CommunityLibrary {
         }
     }
 
-    public void memberMenu() {
+    public void memberMenu(Member loggedInMember) {
         showMemberMenu();
         int selection = getSelection(5);
         if (selection < 0) {
-            memberMenu();
+            memberMenu(loggedInMember);
         } else if (selection == 1) {
-
+            displayAllMovies();
+            memberMenu(loggedInMember);
         } else if (selection == 2) {
-
+            borrowMovie(loggedInMember);
+            memberMenu(loggedInMember);
         } else if (selection == 3) {
-
+            returnMovie(loggedInMember);
+            memberMenu(loggedInMember);
         } else if (selection == 4) {
-
+            listCurrentBorrowedMovies(loggedInMember);
+            memberMenu(loggedInMember);
         } else if (selection == 5) {
-
+            displayMostPopularMovies();
+            memberMenu(loggedInMember);
         } else if (selection == 0) {
             mainMenu();
         }
     }
 
-    private void displayAllMovies(){
+    private void displayMostPopularMovies(){
+        
+    }
 
+    private void listCurrentBorrowedMovies(Member member){
+        member.borrowedMovies.listMovieLexicographically();
+    }
+
+    private void returnMovie(Member memberReturningMovie) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Title of movie to return: ");
+        String movieTitle = sc.nextLine();
+        Movie movieToReturn = memberReturningMovie.borrowedMovies.returnMovieFromString(movieTitle);
+        if (movieToReturn != null){
+            memberReturningMovie.borrowedMovies.removeMovie(movieToReturn);
+            availableToRentMovies.add(movieToReturn);
+        }
+
+    }
+    private void borrowMovie(Member memberBorrowingMovie){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Please enter title of movie to borrow: ");
+        String movieToBorrow = sc.nextLine();
+        Movie movieToRent = availableToRentMovies.returnMovieFromString(movieToBorrow);
+
+//        Add the movie to the members movie collection if the movie exists
+        if (movieToRent != null){
+            availableToRentMovies.removeMovie(movieToRent);
+            memberBorrowingMovie.borrowedMovies.add(movieToRent);
+
+//            Increase borrow count in allMovies collection
+            Movie movieToIncreaseBorrowCount = allMovies.returnMovieFromString(movieToBorrow);
+            movieToIncreaseBorrowCount.borrowCount++;
+            System.out.println("Movie borrowed successfully");
+        } else {
+            System.out.println("Unable to borrow selected movie. Please insure title is correct...");
+        }
+
+    }
+
+    private void displayAllMovies() {
+        System.out.println("Number of Movies in Library: " + allMovies.collectionSize);
+        allMovies.listMovieLexicographically();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Press enter to continue...");
+        sc.nextLine();
     }
 
     private void memberLogin() {
         Scanner sc = new Scanner(System.in);
 
+        try {
 //      Have the user enter there username and password
-        System.out.println("Please enter username:");
-        String inputtedUsername = sc.nextLine();
-        System.out.println("Please enter password:");
-        String inputtedPasswordString = sc.nextLine();
-        int inputtedPasswordInt = Integer.parseInt(inputtedPasswordString);
+            System.out.print("Please enter username:");
+            String inputtedUsername = sc.nextLine();
+            System.out.print("Please enter password:");
+            String inputtedPasswordString = sc.nextLine();
+            int inputtedPasswordInt = Integer.parseInt(inputtedPasswordString);
 
 //        Find the member if they exist, and test if the password is valid
-        Member memberToValidate = this.members.returnMemberFromUsername(inputtedUsername);
-        if (memberToValidate != null){
-            if (memberToValidate.password == inputtedPasswordInt){
-                memberMenu();
+            Member memberToValidate = this.members.returnMemberFromUsername(inputtedUsername);
+            if (memberToValidate != null) {
+                if (memberToValidate.password == inputtedPasswordInt) {
+                    memberMenu(memberToValidate);
+                }
             }
+            System.out.println("Invalid username or password...\n\n");
+        } catch (Exception e){
+            System.out.println("Invalid username or password...\n\n");
         }
-        System.out.println("Invalid username or password...\n\n");
+
         mainMenu();
     }
 
@@ -169,7 +222,7 @@ public class CommunityLibrary {
         String input = sc.nextLine();
 
 //        Check if the selection is valid
-        if (isInt(input)){
+        if (isInt(input)) {
             int selection = Integer.parseInt(input);
             if ((selection > largestValidSelection) || (selection < 0)) {
                 System.out.println("Please input a valid selection\n\n");
@@ -182,12 +235,12 @@ public class CommunityLibrary {
         return -1;
     }
 
-    public void addNewMovie(){
+    public void addNewMovie() {
 //        Create a mew movie
         Scanner sc = new Scanner(System.in);
         System.out.println("============Add Movie============");
         System.out.print("Title: ");
-        Movie newMovie  = new Movie(sc.nextLine());
+        Movie newMovie = new Movie(sc.nextLine());
 
         System.out.print("Starring: ");
         newMovie.starring = sc.nextLine();
@@ -195,10 +248,10 @@ public class CommunityLibrary {
         newMovie.director = sc.nextLine();
 
 //        Input and validate genre
-        while (true){
+        while (true) {
             System.out.print("Genre (Drama,Adventure,Action,Sci-Fi,Comedy,Animated,Thriller,Other): ");
-             String genre = sc.nextLine();
-            if (newMovie.isValidGenre(genre) || genre.isEmpty()){
+            String genre = sc.nextLine();
+            if (newMovie.isValidGenre(genre) || genre.isEmpty()) {
                 newMovie.genre = genre;
                 break;
             } else {
@@ -207,10 +260,10 @@ public class CommunityLibrary {
         }
 
 //        Input and validate classification
-        while (true){
+        while (true) {
             System.out.print("Classification (G,PG,M15+,MA15+): ");
             String classification = sc.nextLine();
-            if (newMovie.isValidClassification(classification) || classification.isEmpty()){
+            if (newMovie.isValidClassification(classification) || classification.isEmpty()) {
                 newMovie.classification = classification;
                 break;
             } else {
@@ -221,20 +274,29 @@ public class CommunityLibrary {
         newMovie.releaseDate = sc.nextLine();
 
 //        Add the new movie to the library
-        allMovies.add(newMovie);
-        availableToRentMovies.add(newMovie);
+//        Note that due to the implementation of the BST, no movie object can exist in two collections
+//        simultaneously, hence a Deep copy must be used to store the movie in the two collections
+        allMovies.add(new Movie(newMovie));
+        availableToRentMovies.add(new Movie(newMovie));
     }
 
-    public void removeMovie(){
+    public void removeMovie() {
         Scanner sc = new Scanner(System.in);
         System.out.println("============Add Movie============");
         System.out.print("Enter title of movie to remove: ");
         String movieToRemove = sc.nextLine();
-        allMovies.removeMovieByString(movieToRemove);
+
+//        Remove all instances of a movie from the allMovies collection
+        boolean instanceOfMovieInCollection = true;
+        while (instanceOfMovieInCollection){
+            instanceOfMovieInCollection = allMovies.removeMovieByString(movieToRemove);
+        }
+//        No loop needed as members can't borrow more then one instance of the same movie
         members.removeMovieFromAllMembersCollections(movieToRemove);
     }
-//MAYBE ADD FUNCTION TO CONFIRM THE MEMBER ENTERS A NAME ?
-    public void registerNewMember(){
+
+    //MAYBE ADD FUNCTION TO CONFIRM THE MEMBER ENTERS A NAME ?
+    public void registerNewMember() {
         Scanner sc = new Scanner(System.in);
         System.out.println("============Register Member============");
         System.out.print("First Name: ");
@@ -250,12 +312,12 @@ public class CommunityLibrary {
         while (true) {
             System.out.print("Password (4 Digits): ");
             String password = sc.nextLine();
-            if (password.length() == 4){
-                try{
+            if (password.length() == 4) {
+                try {
                     int passwordInt = Integer.parseInt(password);
-                    members.addMember(new Member(firstName,lastName,residentialAddress,phoneNumber,passwordInt));
+                    members.addMember(new Member(firstName, lastName, residentialAddress, phoneNumber, passwordInt));
                     return;
-                } catch (Exception e){
+                } catch (Exception e) {
                     System.out.println("Please enter a valid password...");
                 }
             } else {
@@ -265,17 +327,17 @@ public class CommunityLibrary {
         }
     }
 
-    public void findMemberPhoneNumber(){
+    public void findMemberPhoneNumber() {
         Scanner sc = new Scanner(System.in);
         System.out.println("============Recover Phone No.============");
         System.out.print("Member first name: ");
         String firstName = sc.nextLine();
         System.out.print("Member last name: ");
         String lastName = sc.nextLine();
-        try{
-            Member member = members.returnMemberFromUsername(firstName+lastName);
+        try {
+            Member member = members.returnMemberFromUsername(firstName + lastName);
             System.out.println(firstName + " " + lastName + "s phone number: " + member.phoneNumber);
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Member not found...");
         }
     }

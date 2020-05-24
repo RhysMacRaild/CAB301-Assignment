@@ -49,6 +49,7 @@ public class MovieCollection {
         return returnMovieFromString(movieTitleToFind, rootMovie);
     }
 
+//    Return the first instance of a movie with the same title in a collection
     public Movie returnMovieFromString(String movieTitleToFind, Movie node) {
 //        Return null if the BST is empty
         if (rootMovie == null) {
@@ -79,7 +80,10 @@ public class MovieCollection {
     }
 
     public void removeMovie(Movie movieToRemove) {
-
+//        Case 0: movieToRemove does not exist
+        if (movieToRemove == null){
+            return;
+        }
 //      Case 1: movieToRemove has no subtrees
         if (movieToRemove.Left == null && movieToRemove.Right == null) {
 //            Link parent to replacementNode (Remove in this case)
@@ -164,11 +168,14 @@ public class MovieCollection {
         }
     }
 
-    public void removeMovieByString(String movieToRemoveString) {
+//    Return true if movie to remove exists
+    public boolean removeMovieByString(String movieToRemoveString) {
         Movie movieToRemove = returnMovieFromString(movieToRemoveString);
         if (movieToRemove != null) {
             removeMovie(movieToRemove);
+            return true;
         }
+        return false;
     }
 
     public Movie findMinimumNode(Movie startingNode) {
@@ -194,7 +201,6 @@ public class MovieCollection {
         }
 
         accessCurrentNode(currentNode);
-        System.out.println(currentNode.title);
 
         if (currentNode.Right != null){
             inOrder((currentNode.Right));
@@ -203,8 +209,14 @@ public class MovieCollection {
     }
 
     public void accessCurrentNode(Movie currentNode) {
-        orderedCollection[orderedCollectionSize] = currentNode;
-        orderedCollectionSize++;
+//        orderedCollection[orderedCollectionSize] = currentNode;
+//        orderedCollectionSize++;
+        System.out.println("========= "+ currentNode.title + " =========");
+        System.out.println("Starring: "+ currentNode.starring);
+        System.out.println("Director: "+ currentNode.director);
+        System.out.println("Genre: "+ currentNode.genre);
+        System.out.println("Classification: "+ currentNode.classification);
+        System.out.println("Release Date: "+ currentNode.releaseDate +"\n");
     }
 }
 

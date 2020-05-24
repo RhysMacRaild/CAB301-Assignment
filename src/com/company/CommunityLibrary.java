@@ -74,8 +74,8 @@ public class CommunityLibrary {
         }
     }
 
-    private void displayMostPopularMovies(){
-        
+    public void displayMostPopularMovies(){
+        allMovies.listByBorrowCount();
     }
 
     private void listCurrentBorrowedMovies(Member member){

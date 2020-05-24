@@ -7,6 +7,9 @@ public class MovieCollection {
     Movie[] orderedCollection;
     int orderedCollectionSize = 0;
 
+    Movie[] removedDuplicates;
+    int removedDuplicatesCount = 0;
+
 
     //    Add a movie to the binary search tree (Which branch determined lexographically)
     public void add(Movie newMovie) {
@@ -49,7 +52,7 @@ public class MovieCollection {
         return returnMovieFromString(movieTitleToFind, rootMovie);
     }
 
-//    Return the first instance of a movie with the same title in a collection
+    //    Return the first instance of a movie with the same title in a collection
     public Movie returnMovieFromString(String movieTitleToFind, Movie node) {
 //        Return null if the BST is empty
         if (rootMovie == null) {
@@ -81,7 +84,7 @@ public class MovieCollection {
 
     public void removeMovie(Movie movieToRemove) {
 //        Case 0: movieToRemove does not exist
-        if (movieToRemove == null){
+        if (movieToRemove == null) {
             return;
         }
 //      Case 1: movieToRemove has no subtrees
@@ -168,7 +171,7 @@ public class MovieCollection {
         }
     }
 
-//    Return true if movie to remove exists
+    //    Return true if movie to remove exists
     public boolean removeMovieByString(String movieToRemoveString) {
         Movie movieToRemove = returnMovieFromString(movieToRemoveString);
         if (movieToRemove != null) {
@@ -189,34 +192,96 @@ public class MovieCollection {
         return currentNode;
     }
 
-    public void listMovieLexicographically() {
+    public void listByBorrowCount() {
+//        listMovieLexicographically();
         orderedCollection = new Movie[collectionSize];
-        inOrder(rootMovie);
+        orderedCollectionSize = 0;
+        addToArray(rootMovie);
+        mergeDuplicateMovies();
+        sortCollectionByBorrowCount();
+        for (int i = 0; i< removedDuplicatesCount; i++){
+            if (removedDuplicates[i] != null){
+                System.out.println("Title: " + removedDuplicates[i].title + " Count " + removedDuplicates[i].borrowCount);
+            }
+        }
     }
 
-    public void inOrder(Movie currentNode) {
+    //    If a two copies of one movie exist, merge the borrow count of all duplicates
+    public void mergeDuplicateMovies() {
+        removedDuplicates = new Movie[orderedCollectionSize];
+        Movie pivotMovie = orderedCollection[0];
+        int index = 1;
+        int removedDuplicatesIndex = 0;
+        while (index < orderedCollectionSize){
+            while (pivotMovie.title.equals(orderedCollection[index].title)){
+                pivotMovie.borrowCount += orderedCollection[index].borrowCount;
+                index++;
+            }
+            removedDuplicates[removedDuplicatesIndex] = pivotMovie;
+            removedDuplicatesCount++;
+            pivotMovie = orderedCollection[index];
+            index++;
+            removedDuplicatesIndex++;
+        }
+//        Add last movie if it is unique
+        if (!pivotMovie.title.equals(orderedCollection[index-2].title)){
+            pivotMovie = orderedCollection[index-1];
+            removedDuplicates[removedDuplicatesIndex] = pivotMovie;
+            removedDuplicatesCount++;
+        }
+//        Remove null entries in removedDuplicates
+        Movie[] tmp = new Movie[removedDuplicatesCount];
+        for (index = 0; index < removedDuplicatesCount; index++){
+            tmp[index] = removedDuplicates[index];
+        }
+        removedDuplicates = tmp;
+    }
 
-        if (currentNode.Left != null){
-            inOrder(currentNode.Left);
+    public void sortCollectionByBorrowCount() {
+
+    }
+
+    public void listMovieLexicographically() {
+        printMovieNamesInOrder(rootMovie);
+    }
+
+    public void printMovieNamesInOrder(Movie currentNode) {
+
+        if (currentNode.Left != null) {
+            printMovieNamesInOrder(currentNode.Left);
         }
 
-        accessCurrentNode(currentNode);
+        printCurrentNode(currentNode);
 
-        if (currentNode.Right != null){
-            inOrder((currentNode.Right));
+        if (currentNode.Right != null) {
+            printMovieNamesInOrder((currentNode.Right));
+        }
+    }
+
+    public void addToArray(Movie currentNode) {
+
+        if (currentNode.Left != null) {
+            addToArray(currentNode.Left);
+        }
+
+        orderedCollection[orderedCollectionSize] = currentNode;
+        orderedCollectionSize++;
+
+        if (currentNode.Right != null) {
+            addToArray((currentNode.Right));
         }
 
     }
 
-    public void accessCurrentNode(Movie currentNode) {
+    public void printCurrentNode(Movie currentNode) {
 //        orderedCollection[orderedCollectionSize] = currentNode;
 //        orderedCollectionSize++;
-        System.out.println("========= "+ currentNode.title + " =========");
-        System.out.println("Starring: "+ currentNode.starring);
-        System.out.println("Director: "+ currentNode.director);
-        System.out.println("Genre: "+ currentNode.genre);
-        System.out.println("Classification: "+ currentNode.classification);
-        System.out.println("Release Date: "+ currentNode.releaseDate +"\n");
+        System.out.println("========= " + currentNode.title + " =========");
+        System.out.println("Starring: " + currentNode.starring);
+        System.out.println("Director: " + currentNode.director);
+        System.out.println("Genre: " + currentNode.genre);
+        System.out.println("Classification: " + currentNode.classification);
+        System.out.println("Release Date: " + currentNode.releaseDate + "\n");
     }
 }
 

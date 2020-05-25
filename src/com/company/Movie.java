@@ -14,7 +14,7 @@ public class Movie extends Node {
 
 
     public Movie(String title) {
-        this.title = title;
+        this.title = title.toUpperCase();
         this.borrowCount = 0;
     }
 

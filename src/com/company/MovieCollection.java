@@ -28,7 +28,7 @@ public class MovieCollection {
 
     //    Find an appropriate place in the tree to add a new movie and add it
     public void placeMovie(Movie newMovie, Movie node) {
-        if (newMovie.title.compareToIgnoreCase(node.title) <= 0) {
+        if (newMovie.title.compareTo(node.title) <= 0) {
             if (node.Left != null) {
                 placeMovie(newMovie, node.Left);
             } else {
@@ -50,17 +50,15 @@ public class MovieCollection {
 
     //    Base case using root node
     public Movie returnMovieFromString(String movieTitleToFind) {
-        return returnMovieFromString(movieTitleToFind, rootMovie);
+        return returnMovieFromString(movieTitleToFind.toUpperCase(), rootMovie);
     }
 
     //    Return the first instance of a movie with the same title in a collection
     public Movie returnMovieFromString(String movieTitleToFind, Movie node) {
+        movieTitleToFind = movieTitleToFind.toUpperCase();
 //        Return null if the BST is empty
         if (rootMovie == null) {
             return null;
-        }
-        if (node.Left != null){
-            System.out.println(movieTitleToFind.compareToIgnoreCase(node.Left.title));
         }
 
 //        Stop searching, the current node is the movie to return
@@ -77,9 +75,9 @@ public class MovieCollection {
             return returnMovieFromString(movieTitleToFind, node.Left);
         }
 //        Check which path in the tree to take if both options exist
-        else if (movieTitleToFind.compareToIgnoreCase(node.Left.title) <= 0) {
+        else if (movieTitleToFind.compareTo(node.Left.title) <= 0) {
             return returnMovieFromString(movieTitleToFind, node.Left);
-        } else if (movieTitleToFind.compareToIgnoreCase(node.Left.title) > 0) {
+        } else if (movieTitleToFind.compareTo(node.Left.title) > 0) {
             return returnMovieFromString(movieTitleToFind, node.Right);
         }
         return null;
@@ -96,7 +94,7 @@ public class MovieCollection {
             if (movieToRemove == rootMovie) {
                 rootMovie = null;
                 collectionSize--;
-            } else if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
+            } else if (movieToRemove.title.compareTo(movieToRemove.Parent.title) <= 0) {
                 movieToRemove.Parent.Left = null;
                 collectionSize--;
             } else {
@@ -112,7 +110,7 @@ public class MovieCollection {
             if (movieToRemove == rootMovie) {
                 rootMovie = replacementNode;
                 collectionSize--;
-            } else if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
+            } else if (movieToRemove.title.compareTo(movieToRemove.Parent.title) <= 0) {
                 replacementNode.Parent.Left = replacementNode;
                 collectionSize--;
             } else {
@@ -127,7 +125,7 @@ public class MovieCollection {
             if (movieToRemove == rootMovie) {
                 rootMovie = replacementNode;
                 collectionSize--;
-            } else if (movieToRemove.title.compareToIgnoreCase(movieToRemove.Parent.title) <= 0) {
+            } else if (movieToRemove.title.compareTo(movieToRemove.Parent.title) <= 0) {
                 replacementNode.Parent.Left = replacementNode;
                 collectionSize--;
             } else {
@@ -157,10 +155,10 @@ public class MovieCollection {
             if (movieToRemove == rootMovie) {
                 rootMovie = replacementNode;
                 collectionSize--;
-            } else if (replacementNode.title.compareToIgnoreCase(replacementNode.Parent.title) <= 0) {
+            } else if (replacementNode.title.compareTo(replacementNode.Parent.title) <= 0) {
                 replacementNode.Parent.Left = replacementNode;
                 collectionSize--;
-            } else if (replacementNode.title.compareToIgnoreCase(replacementNode.Parent.title) > 0) {
+            } else if (replacementNode.title.compareTo(replacementNode.Parent.title) > 0) {
                 replacementNode.Parent.Right = replacementNode;
                 collectionSize--;
             }
@@ -176,6 +174,7 @@ public class MovieCollection {
 
     //    Return true if movie to remove exists
     public boolean removeMovieByString(String movieToRemoveString) {
+        movieToRemoveString = movieToRemoveString.toUpperCase();
         Movie movieToRemove = returnMovieFromString(movieToRemoveString);
         if (movieToRemove != null) {
             removeMovie(movieToRemove);

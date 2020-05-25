@@ -20,7 +20,7 @@ public class Main {
         run.addNewMovie(new Movie("b"));
         run.addNewMovie(new Movie("s"));
         run.addNewMovie(new Movie("t"));
-        run.addNewMovie(new Movie("ttC"));
+        run.addNewMovie(new Movie("ttc"));
         run.addNewMovie(new Movie("v"));
         run.addNewMovie(new Movie("k"));
         Member john = new Member("John","Smith","","",1234);
@@ -28,33 +28,33 @@ public class Main {
         run.members.addMember(john);
         run.members.addMember(sam);
 
-        Movie movieToRent = run.availableToRentMovies.returnMovieFromString("g");
-        if (movieToRent != null){
-            run.availableToRentMovies.removeMovie(movieToRent);
-            john.borrowedMovies.add(new Movie(movieToRent));
+//        Movie movieToRent = run.availableToRentMovies.returnMovieFromString("g");
+//        if (movieToRent != null){
+//            run.availableToRentMovies.removeMovie(movieToRent);
+//            john.borrowedMovies.add(new Movie(movieToRent));
+//
+////            Increase borrow count in allMovies collection
+//            Movie movieToIncreaseBorrowCount = run.allMovies.returnMovieFromString("g");
+//            movieToIncreaseBorrowCount.borrowCount++;
+//            System.out.println("Movie borrowed successfully");
+//        } else {
+//            System.out.println("Unable to borrow selected movie. Please insure title is correct...");
+//        }
+//
+//        movieToRent = run.availableToRentMovies.returnMovieFromString("g");
+//        if (movieToRent != null){
+//            run.availableToRentMovies.removeMovie(movieToRent);
+//            sam.borrowedMovies.add(new Movie(movieToRent));
+//
+////            Increase borrow count in allMovies collection
+//            Movie movieToIncreaseBorrowCount = run.allMovies.returnMovieFromString("g");
+//            movieToIncreaseBorrowCount.borrowCount++;
+//            System.out.println("Movie borrowed successfully");
+//        } else {
+//            System.out.println("Unable to borrow selected movie. Please insure title is correct...");
+//        }
 
-//            Increase borrow count in allMovies collection
-            Movie movieToIncreaseBorrowCount = run.allMovies.returnMovieFromString("g");
-            movieToIncreaseBorrowCount.borrowCount++;
-            System.out.println("Movie borrowed successfully");
-        } else {
-            System.out.println("Unable to borrow selected movie. Please insure title is correct...");
-        }
-
-        movieToRent = run.availableToRentMovies.returnMovieFromString("g");
-        if (movieToRent != null){
-            run.availableToRentMovies.removeMovie(movieToRent);
-            sam.borrowedMovies.add(new Movie(movieToRent));
-
-//            Increase borrow count in allMovies collection
-            Movie movieToIncreaseBorrowCount = run.allMovies.returnMovieFromString("g");
-            movieToIncreaseBorrowCount.borrowCount++;
-            System.out.println("Movie borrowed successfully");
-        } else {
-            System.out.println("Unable to borrow selected movie. Please insure title is correct...");
-        }
-
-        run.memberMenu(john);
+        run.mainMenu();
 
 //        Movie test = run.availableToRentMovies.returnMovieFromString("g");
 //        if (test != null){

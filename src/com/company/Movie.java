@@ -15,6 +15,7 @@ public class Movie extends Node {
 
     public Movie(String title) {
         this.title = title;
+        this.borrowCount = 0;
     }
 
 //    Create a deep copy of a movie

@@ -89,7 +89,7 @@ public class CommunityLibrary {
         Movie movieToReturn = memberReturningMovie.borrowedMovies.returnMovieFromString(movieTitle);
         if (movieToReturn != null){
             memberReturningMovie.borrowedMovies.removeMovie(movieToReturn);
-            availableToRentMovies.add(movieToReturn);
+            availableToRentMovies.add(new Movie(movieToReturn));
         }
 
     }
@@ -119,7 +119,7 @@ public class CommunityLibrary {
         allMovies.listMovieLexicographically();
         Scanner sc = new Scanner(System.in);
         System.out.println("Press enter to continue...");
-        sc.nextLine();
+//        sc.nextLine();
     }
 
     private void memberLogin() {
@@ -290,6 +290,7 @@ public class CommunityLibrary {
         boolean instanceOfMovieInCollection = true;
         while (instanceOfMovieInCollection){
             instanceOfMovieInCollection = allMovies.removeMovieByString(movieToRemove);
+            availableToRentMovies.removeMovieByString(movieToRemove);
         }
 //        No loop needed as members can't borrow more then one instance of the same movie
         members.removeMovieFromAllMembersCollections(movieToRemove);

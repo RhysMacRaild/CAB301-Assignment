@@ -93,6 +93,7 @@ public class CommunityLibrary {
         }
 
     }
+
     public void borrowMovie(Member memberBorrowingMovie){
         Scanner sc = new Scanner(System.in);
         System.out.print("Please enter title of movie to borrow: ");
@@ -100,7 +101,7 @@ public class CommunityLibrary {
         Movie movieToRent = availableToRentMovies.returnMovieFromString(movieToBorrow);
 
 //        Add the movie to the members movie collection if the movie exists
-        if (movieToRent != null && memberBorrowingMovie.borrowedMovies.returnMovieFromString(movieToBorrow) == null){
+        if (movieToRent != null && memberBorrowingMovie.borrowedMovies.returnMovieFromString(movieToBorrow) == null && memberBorrowingMovie.borrowedMovies.collectionSize < 10){
             availableToRentMovies.removeMovie(movieToRent);
             memberBorrowingMovie.borrowedMovies.add(new Movie(movieToRent));
 

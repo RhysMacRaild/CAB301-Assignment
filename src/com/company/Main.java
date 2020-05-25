@@ -5,6 +5,7 @@ public class Main {
     public static void main(String[] args) {
         CommunityLibrary run = new CommunityLibrary();
 
+//
         run.addNewMovie(new Movie("A"));
         run.addNewMovie(new Movie("G2"));
         run.addNewMovie(new Movie("D"));
@@ -23,10 +24,12 @@ public class Main {
         run.addNewMovie(new Movie("ttc"));
         run.addNewMovie(new Movie("v"));
         run.addNewMovie(new Movie("k"));
-        Member john = new Member("John","Smith","","",1234);
-        Member sam = new Member("Sam","Smith","","",1234);
+        Member john = new Member("John", "Smith", "", "", 1234);
+        Member sam = new Member("Sam", "Smith", "", "", 1234);
         run.members.addMember(john);
         run.members.addMember(sam);
+        run.mainMenu();
+
 
 //        Movie movieToRent = run.availableToRentMovies.returnMovieFromString("g");
 //        if (movieToRent != null){
@@ -54,7 +57,7 @@ public class Main {
 //            System.out.println("Unable to borrow selected movie. Please insure title is correct...");
 //        }
 
-        run.mainMenu();
+//        run.mainMenu();
 
 //        Movie test = run.availableToRentMovies.returnMovieFromString("g");
 //        if (test != null){
@@ -66,10 +69,6 @@ public class Main {
 //            run.availableToRentMovies.removeMovie(test2);
 //            System.out.println("Not Null");
 //        }
-
-
-
-
 
 
 //        run.displayMostPopularMovies();

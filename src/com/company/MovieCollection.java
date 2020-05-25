@@ -75,9 +75,9 @@ public class MovieCollection {
             return returnMovieFromString(movieTitleToFind, node.Left);
         }
 //        Check which path in the tree to take if both options exist
-        else if (movieTitleToFind.compareTo(node.Left.title) <= 0) {
+        else if (movieTitleToFind.compareTo(node.title) <= 0) {
             return returnMovieFromString(movieTitleToFind, node.Left);
-        } else if (movieTitleToFind.compareTo(node.Left.title) > 0) {
+        } else if (movieTitleToFind.compareTo(node.title) > 0) {
             return returnMovieFromString(movieTitleToFind, node.Right);
         }
         return null;
@@ -138,27 +138,25 @@ public class MovieCollection {
 //        Case 3: movieToRemove has two subtrees (Replace movie with the minimum node on right subtree)
         else {
             Movie replacementNode = findMinimumNode(movieToRemove.Right);
-            replacementNode.Left = movieToRemove.Left;
-            replacementNode.Right = movieToRemove.Right;
-//            Update Parents
-            replacementNode.Parent.Left = null;
-            replacementNode.Left.Parent = replacementNode;
-            replacementNode.Right.Parent = replacementNode;
             replacementNode.Parent = movieToRemove.Parent;
+
 
 //            Link replacementNode to its new parent
             if (movieToRemove == rootMovie) {
                 rootMovie = replacementNode;
                 collectionSize--;
+//                Possible never runs??
             } else if (replacementNode.title.compareTo(replacementNode.Parent.title) <= 0) {
                 replacementNode.Parent.Left = replacementNode;
+                replacementNode.Right = movieToRemove.Right;
                 collectionSize--;
             } else if (replacementNode.title.compareTo(replacementNode.Parent.title) > 0) {
                 replacementNode.Parent.Right = replacementNode;
+                replacementNode.Left = movieToRemove.Left;
                 collectionSize--;
             }
 
-//            Confirm that the replacementNode doesn't point to itself
+//            Confirm that the replacementNode doesn't point to itself (Shouldn't ever run?)
             if (replacementNode.Left == replacementNode) {
                 replacementNode.Left = null;
             } else if (replacementNode.Right == replacementNode) {
@@ -219,6 +217,27 @@ public class MovieCollection {
         }
     }
 
+    public void listMovieLexicographically() {
+        if (rootMovie != null) {
+            printMovieNamesInOrder(rootMovie);
+        } else {
+            System.out.println("Collection Empty...");
+        }
+    }
+
+    public void printMovieNamesInOrder(Movie currentNode) {
+
+        if (currentNode.Left != null) {
+            printMovieNamesInOrder(currentNode.Left);
+        }
+
+        printCurrentNode(currentNode);
+
+        if (currentNode.Right != null) {
+            printMovieNamesInOrder((currentNode.Right));
+        }
+    }
+
     //    If a two copies of one movie exist, merge the borrow count of all duplicates
     public void mergeDuplicateMovies() {
         removedDuplicates = new Movie[orderedCollectionSize];
@@ -266,7 +285,6 @@ public class MovieCollection {
 
     public int partition(int lowIndex, int highIndex) {
         Movie pivot = removedDuplicates[highIndex];
-        int index = lowIndex;
         int i = lowIndex;
         for (int j = lowIndex; j <= highIndex; j++) {
             if (removedDuplicates[j].borrowCount < pivot.borrowCount) {
@@ -282,26 +300,6 @@ public class MovieCollection {
         return i;
     }
 
-    public void listMovieLexicographically() {
-        if (rootMovie != null) {
-            printMovieNamesInOrder(rootMovie);
-        } else {
-            System.out.println("Collection Empty...");
-        }
-    }
-
-    public void printMovieNamesInOrder(Movie currentNode) {
-
-        if (currentNode.Left != null) {
-            printMovieNamesInOrder(currentNode.Left);
-        }
-
-        printCurrentNode(currentNode);
-
-        if (currentNode.Right != null) {
-            printMovieNamesInOrder((currentNode.Right));
-        }
-    }
 
     public void addToArray(Movie currentNode) {
 

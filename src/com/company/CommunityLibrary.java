@@ -93,7 +93,7 @@ public class CommunityLibrary {
         }
 
     }
-    private void borrowMovie(Member memberBorrowingMovie){
+    public void borrowMovie(Member memberBorrowingMovie){
         Scanner sc = new Scanner(System.in);
         System.out.print("Please enter title of movie to borrow: ");
         String movieToBorrow = sc.nextLine();
@@ -102,7 +102,7 @@ public class CommunityLibrary {
 //        Add the movie to the members movie collection if the movie exists
         if (movieToRent != null){
             availableToRentMovies.removeMovie(movieToRent);
-            memberBorrowingMovie.borrowedMovies.add(movieToRent);
+            memberBorrowingMovie.borrowedMovies.add(new Movie(movieToRent));
 
 //            Increase borrow count in allMovies collection
             Movie movieToIncreaseBorrowCount = allMovies.returnMovieFromString(movieToBorrow);
@@ -117,9 +117,6 @@ public class CommunityLibrary {
     private void displayAllMovies() {
         System.out.println("Number of Movies in Library: " + allMovies.collectionSize);
         allMovies.listMovieLexicographically();
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Press enter to continue...");
-//        sc.nextLine();
     }
 
     private void memberLogin() {
@@ -235,6 +232,11 @@ public class CommunityLibrary {
         return -1;
     }
 
+    public void addNewMovie(Movie newMovie){
+        allMovies.add(new Movie(newMovie));
+        availableToRentMovies.add(new Movie(newMovie));
+    }
+
     public void addNewMovie() {
 //        Create a mew movie
         Scanner sc = new Scanner(System.in);
@@ -296,7 +298,7 @@ public class CommunityLibrary {
         members.removeMovieFromAllMembersCollections(movieToRemove);
     }
 
-    //MAYBE ADD FUNCTION TO CONFIRM THE MEMBER ENTERS A NAME ?
+
     public void registerNewMember() {
         Scanner sc = new Scanner(System.in);
         System.out.println("============Register Member============");

@@ -4,7 +4,62 @@ public class Main {
 
     public static void main(String[] args) {
         CommunityLibrary run = new CommunityLibrary();
-        run.mainMenu();
+
+        run.addNewMovie(new Movie("A"));
+        run.addNewMovie(new Movie("G"));
+        run.addNewMovie(new Movie("D"));
+        run.addNewMovie(new Movie("G"));
+        run.addNewMovie(new Movie("g"));
+        run.addNewMovie(new Movie("g"));
+        run.addNewMovie(new Movie("AC"));
+        run.addNewMovie(new Movie("a"));
+        run.addNewMovie(new Movie("g"));
+        Member john = new Member("John","Smith","","",1234);
+        Member sam = new Member("Sam","Smith","","",1234);
+        run.members.addMember(john);
+        run.members.addMember(sam);
+
+        Movie movieToRent = run.availableToRentMovies.returnMovieFromString("g");
+        if (movieToRent != null){
+            run.availableToRentMovies.removeMovie(movieToRent);
+            john.borrowedMovies.add(new Movie(movieToRent));
+
+//            Increase borrow count in allMovies collection
+            Movie movieToIncreaseBorrowCount = run.allMovies.returnMovieFromString("g");
+            movieToIncreaseBorrowCount.borrowCount++;
+            System.out.println("Movie borrowed successfully");
+        } else {
+            System.out.println("Unable to borrow selected movie. Please insure title is correct...");
+        }
+
+        movieToRent = run.availableToRentMovies.returnMovieFromString("g");
+        if (movieToRent != null){
+            run.availableToRentMovies.removeMovie(movieToRent);
+            sam.borrowedMovies.add(new Movie(movieToRent));
+
+//            Increase borrow count in allMovies collection
+            Movie movieToIncreaseBorrowCount = run.allMovies.returnMovieFromString("g");
+            movieToIncreaseBorrowCount.borrowCount++;
+            System.out.println("Movie borrowed successfully");
+        } else {
+            System.out.println("Unable to borrow selected movie. Please insure title is correct...");
+        }
+
+        run.memberMenu(john);
+
+//        Movie test = run.availableToRentMovies.returnMovieFromString("g");
+//        if (test != null){
+//            run.availableToRentMovies.removeMovie(test);
+//            System.out.println("Not Null");
+//        }
+//        Movie test2 = run.availableToRentMovies.returnMovieFromString("g");
+//        if (test2 != null){
+//            run.availableToRentMovies.removeMovie(test2);
+//            System.out.println("Not Null");
+//        }
+
+
+
 
 
 

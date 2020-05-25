@@ -4,7 +4,7 @@ public class MovieCollection {
     Movie rootMovie;
     int collectionSize = 0;
 
-//    Used only for sort by borrow count
+    //    Used only for sort by borrow count
     Movie[] orderedCollection;
     int orderedCollectionSize = 0;
 
@@ -195,9 +195,9 @@ public class MovieCollection {
 
     public void listByBorrowCount() {
 //        Base cases where the BST has no movies or one movie
-        if (rootMovie == null){
+        if (rootMovie == null) {
             return;
-        } else if (collectionSize == 1){
+        } else if (collectionSize == 1) {
             removedDuplicates = new Movie[1];
             removedDuplicates[0] = rootMovie;
             removedDuplicatesCount = 1;
@@ -208,17 +208,17 @@ public class MovieCollection {
             addToArray(rootMovie);
             mergeDuplicateMovies();
             sortCollectionByBorrowCount();
-            quickSort(0, removedDuplicatesCount-1);
+            quickSort(0, removedDuplicatesCount - 1);
         }
 
 //        List highest 10 borrow count movies
-        int startIndex = removedDuplicatesCount- 1;
+        int startIndex = removedDuplicatesCount - 1;
         int stopIndex = removedDuplicatesCount - 10;
-        if (stopIndex < 0){
+        if (stopIndex < 0) {
             stopIndex = 0;
         }
-        for (int i = startIndex; i >= stopIndex; i--){
-            if (removedDuplicates[i] != null){
+        for (int i = startIndex; i >= stopIndex; i--) {
+            if (removedDuplicates[i] != null) {
                 System.out.println("Borrow Count: " + removedDuplicates[i].borrowCount + " Title: " + removedDuplicates[i].title);
             }
         }
@@ -228,29 +228,33 @@ public class MovieCollection {
     public void mergeDuplicateMovies() {
         removedDuplicates = new Movie[orderedCollectionSize];
         removedDuplicatesCount = 0;
-        Movie pivotMovie = orderedCollection[0];
+        Movie pivotMovie = new Movie(orderedCollection[0]);
         int index = 1;
         int removedDuplicatesIndex = 0;
-        while (index < orderedCollectionSize){
-            while (pivotMovie.title.equals(orderedCollection[index].title)){
-                pivotMovie.borrowCount += orderedCollection[index].borrowCount;
-                index++;
+        while (index < orderedCollectionSize) {
+            try {
+                while (pivotMovie.title.equals(orderedCollection[index].title)) {
+                    pivotMovie.borrowCount += orderedCollection[index].borrowCount;
+                    index++;
+                }
+            } catch (Exception e) {
+                break;
             }
             removedDuplicates[removedDuplicatesIndex] = pivotMovie;
             removedDuplicatesCount++;
-            pivotMovie = orderedCollection[index];
+            pivotMovie = new Movie(orderedCollection[index]);
             index++;
             removedDuplicatesIndex++;
         }
 //        Add last movie if it is unique
-        if (!pivotMovie.title.equals(orderedCollection[index-2].title)){
-            pivotMovie = orderedCollection[index-1];
+        if (!pivotMovie.title.equals(orderedCollection[index - 2].title)) {
+            pivotMovie = orderedCollection[index - 1];
             removedDuplicates[removedDuplicatesIndex] = pivotMovie;
             removedDuplicatesCount++;
         }
 //        Remove null entries in removedDuplicates
         Movie[] tmp = new Movie[removedDuplicatesCount];
-        for (index = 0; index < removedDuplicatesCount; index++){
+        for (index = 0; index < removedDuplicatesCount; index++) {
             tmp[index] = removedDuplicates[index];
         }
         removedDuplicates = tmp;
@@ -260,20 +264,20 @@ public class MovieCollection {
 
     }
 
-    public void quickSort(int lowIndex, int highIndex){
-        if (lowIndex < highIndex){
+    public void quickSort(int lowIndex, int highIndex) {
+        if (lowIndex < highIndex) {
             int partitionIndex = partition(lowIndex, highIndex);
-            quickSort(lowIndex, partitionIndex-1);
-            quickSort(partitionIndex+1, highIndex);
+            quickSort(lowIndex, partitionIndex - 1);
+            quickSort(partitionIndex + 1, highIndex);
         }
     }
 
-    public int partition(int lowIndex, int highIndex){
+    public int partition(int lowIndex, int highIndex) {
         Movie pivot = removedDuplicates[highIndex];
         int index = lowIndex;
         int i = lowIndex;
-        for (int j = lowIndex; j<= highIndex; j++){
-            if (removedDuplicates[j].borrowCount < pivot.borrowCount){
+        for (int j = lowIndex; j <= highIndex; j++) {
+            if (removedDuplicates[j].borrowCount < pivot.borrowCount) {
                 Movie tmp = removedDuplicates[i];
                 removedDuplicates[i] = removedDuplicates[j];
                 removedDuplicates[j] = tmp;
@@ -287,7 +291,7 @@ public class MovieCollection {
     }
 
     public void listMovieLexicographically() {
-        if (rootMovie != null){
+        if (rootMovie != null) {
             printMovieNamesInOrder(rootMovie);
         } else {
             System.out.println("Collection Empty...");

@@ -6,7 +6,7 @@ public class Main {
         CommunityLibrary run = new CommunityLibrary();
 
         run.addNewMovie(new Movie("A"));
-        run.addNewMovie(new Movie("G"));
+        run.addNewMovie(new Movie("G2"));
         run.addNewMovie(new Movie("D"));
         run.addNewMovie(new Movie("G"));
         run.addNewMovie(new Movie("g"));

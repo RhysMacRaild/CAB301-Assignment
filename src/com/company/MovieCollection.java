@@ -132,11 +132,6 @@ public class MovieCollection {
                 replacementNode.Parent.Right = replacementNode;
                 collectionSize--;
             }
-            if (replacementNode != rootMovie) {
-                //            Update parents
-                replacementNode.Left.Parent = replacementNode;
-                replacementNode.Right.Parent = replacementNode;
-            }
 
         }
 

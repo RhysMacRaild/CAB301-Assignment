@@ -59,6 +59,9 @@ public class MovieCollection {
         if (rootMovie == null) {
             return null;
         }
+        if (node.Left != null){
+            System.out.println(movieTitleToFind.compareToIgnoreCase(node.Left.title));
+        }
 
 //        Stop searching, the current node is the movie to return
         if (movieTitleToFind.equals(node.title)) {
@@ -73,7 +76,6 @@ public class MovieCollection {
         } else if (node.Left != null && node.Right == null) {
             return returnMovieFromString(movieTitleToFind, node.Left);
         }
-
 //        Check which path in the tree to take if both options exist
         else if (movieTitleToFind.compareToIgnoreCase(node.Left.title) <= 0) {
             return returnMovieFromString(movieTitleToFind, node.Left);
@@ -207,7 +209,6 @@ public class MovieCollection {
 
             addToArray(rootMovie);
             mergeDuplicateMovies();
-            sortCollectionByBorrowCount();
             quickSort(0, removedDuplicatesCount - 1);
         }
 
@@ -248,7 +249,7 @@ public class MovieCollection {
         }
 //        Add last movie if it is unique
         if (!pivotMovie.title.equals(orderedCollection[index - 2].title)) {
-            pivotMovie = orderedCollection[index - 1];
+            pivotMovie = new Movie(orderedCollection[index - 1]);
             removedDuplicates[removedDuplicatesIndex] = pivotMovie;
             removedDuplicatesCount++;
         }
@@ -260,9 +261,6 @@ public class MovieCollection {
         removedDuplicates = tmp;
     }
 
-    public void sortCollectionByBorrowCount() {
-
-    }
 
     public void quickSort(int lowIndex, int highIndex) {
         if (lowIndex < highIndex) {

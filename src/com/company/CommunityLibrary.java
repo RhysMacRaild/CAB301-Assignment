@@ -100,7 +100,7 @@ public class CommunityLibrary {
         Movie movieToRent = availableToRentMovies.returnMovieFromString(movieToBorrow);
 
 //        Add the movie to the members movie collection if the movie exists
-        if (movieToRent != null){
+        if (movieToRent != null && memberBorrowingMovie.borrowedMovies.returnMovieFromString(movieToBorrow) == null){
             availableToRentMovies.removeMovie(movieToRent);
             memberBorrowingMovie.borrowedMovies.add(new Movie(movieToRent));
 

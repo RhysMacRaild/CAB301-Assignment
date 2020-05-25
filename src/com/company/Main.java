@@ -14,6 +14,15 @@ public class Main {
         run.addNewMovie(new Movie("AC"));
         run.addNewMovie(new Movie("a"));
         run.addNewMovie(new Movie("g"));
+        run.addNewMovie(new Movie("j"));
+        run.addNewMovie(new Movie("k"));
+        run.addNewMovie(new Movie("l"));
+        run.addNewMovie(new Movie("b"));
+        run.addNewMovie(new Movie("s"));
+        run.addNewMovie(new Movie("t"));
+        run.addNewMovie(new Movie("ttC"));
+        run.addNewMovie(new Movie("v"));
+        run.addNewMovie(new Movie("k"));
         Member john = new Member("John","Smith","","",1234);
         Member sam = new Member("Sam","Smith","","",1234);
         run.members.addMember(john);

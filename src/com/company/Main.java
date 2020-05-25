@@ -28,34 +28,34 @@ public class Main {
         Member sam = new Member("Sam", "Smith", "", "", 1234);
         run.members.addMember(john);
         run.members.addMember(sam);
-        run.mainMenu();
+//        run.mainMenu();
 
 
-//        Movie movieToRent = run.availableToRentMovies.returnMovieFromString("g");
-//        if (movieToRent != null){
-//            run.availableToRentMovies.removeMovie(movieToRent);
-//            john.borrowedMovies.add(new Movie(movieToRent));
-//
-////            Increase borrow count in allMovies collection
-//            Movie movieToIncreaseBorrowCount = run.allMovies.returnMovieFromString("g");
-//            movieToIncreaseBorrowCount.borrowCount++;
-//            System.out.println("Movie borrowed successfully");
-//        } else {
-//            System.out.println("Unable to borrow selected movie. Please insure title is correct...");
-//        }
-//
-//        movieToRent = run.availableToRentMovies.returnMovieFromString("g");
-//        if (movieToRent != null){
-//            run.availableToRentMovies.removeMovie(movieToRent);
-//            sam.borrowedMovies.add(new Movie(movieToRent));
-//
-////            Increase borrow count in allMovies collection
-//            Movie movieToIncreaseBorrowCount = run.allMovies.returnMovieFromString("g");
-//            movieToIncreaseBorrowCount.borrowCount++;
-//            System.out.println("Movie borrowed successfully");
-//        } else {
-//            System.out.println("Unable to borrow selected movie. Please insure title is correct...");
-//        }
+        Movie movieToRent = run.availableToRentMovies.returnMovieFromString("A");
+        if (movieToRent != null){
+            run.availableToRentMovies.removeMovie(movieToRent);
+            john.borrowedMovies.add(new Movie(movieToRent));
+
+//            Increase borrow count in allMovies collection
+            Movie movieToIncreaseBorrowCount = run.allMovies.returnMovieFromString("A");
+            movieToIncreaseBorrowCount.borrowCount++;
+            System.out.println("Movie borrowed successfully");
+        } else {
+            System.out.println("Unable to borrow selected movie. Please insure title is correct...");
+        }
+
+        movieToRent = run.availableToRentMovies.returnMovieFromString("V");
+        if (movieToRent != null){
+            run.availableToRentMovies.removeMovie(movieToRent);
+            sam.borrowedMovies.add(new Movie(movieToRent));
+
+//            Increase borrow count in allMovies collection
+            Movie movieToIncreaseBorrowCount = run.allMovies.returnMovieFromString("V");
+            movieToIncreaseBorrowCount.borrowCount++;
+            System.out.println("Movie borrowed successfully");
+        } else {
+            System.out.println("Unable to borrow selected movie. Please insure title is correct...");
+        }
 
 //        run.mainMenu();
 

@@ -138,19 +138,25 @@ public class MovieCollection {
 //        Case 3: movieToRemove has two subtrees (Replace movie with the minimum node on right subtree)
         else {
             Movie replacementNode = findMinimumNode(movieToRemove.Right);
-            replacementNode.Parent = movieToRemove.Parent;
-
 
 //            Link replacementNode to its new parent
             if (movieToRemove == rootMovie) {
+                if (replacementNode.Right != null){
+                    replacementNode.Right.Parent = replacementNode.Parent;
+                    replacementNode.Parent.Left = replacementNode.Right;
+                }
+                replacementNode.Left = rootMovie.Left;
+                replacementNode.Right = rootMovie.Right;
                 rootMovie = replacementNode;
                 collectionSize--;
 //                Possible never runs??
             } else if (replacementNode.title.compareTo(replacementNode.Parent.title) <= 0) {
+                replacementNode.Parent = movieToRemove.Parent;
                 replacementNode.Parent.Left = replacementNode;
                 replacementNode.Right = movieToRemove.Right;
                 collectionSize--;
             } else if (replacementNode.title.compareTo(replacementNode.Parent.title) > 0) {
+                replacementNode.Parent = movieToRemove.Parent;
                 replacementNode.Parent.Right = replacementNode;
                 replacementNode.Left = movieToRemove.Left;
                 collectionSize--;
